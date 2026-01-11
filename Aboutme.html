@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Zein – The Guided Mind</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-color: #788cff; /* Blue-purple for accents */
+        --dark-bg: #02030a;
+        --medium-bg: #0b0d17;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --border-color: rgba(255, 255, 255, 0.08);
+        --text-light: #e0e0e0;
+        --text-muted: #a0a0a0;
+        --font-heading: 'Orbitron', sans-serif;
+        --font-body: 'Poppins', sans-serif;
+    }
+
+    body {
+        margin: 0;
+        font-family: var(--font-body);
+        background: radial-gradient(circle at top, var(--medium-bg), var(--dark-bg));
+        color: var(--text-light);
+        line-height: 1.7;
+        overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Background animation for a futuristic feel */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(rgba(var(--primary-color-rgb), 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(var(--primary-color-rgb), 0.1) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: panBg 60s linear infinite;
+        z-index: -1;
+        opacity: 0.1;
+    }
+
+    @keyframes panBg {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 100%; }
+    }
+
+    h1, h2, h3 {
+        font-family: var(--font-heading);
+        color: var(--primary-color);
+        text-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.5);
+    }
+
+    h1 {
+        font-size: 3em;
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    h2 {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+        text-align: center;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background-color: var(--primary-color);
+        border-radius: 5px;
+    }
+
+    .section {
+        padding: 80px 10%;
+        max-width: 1000px;
+        margin: auto;
+        position: relative;
+        z-index: 10;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border-radius: 25px;
+        padding: 40px;
+        margin-bottom: 50px;
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(var(--primary-color-rgb), 0.15);
+    }
+
+    .subtitle {
+        text-align: center;
+        color: var(--text-muted);
+        margin-bottom: 40px;
+        font-size: 1.1em;
+    }
+
+    .traits {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .trait {
+        background: rgba(var(--primary-color-rgb), 0.08);
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(var(--primary-color-rgb), 0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .trait::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(rgba(var(--primary-color-rgb), 0.2), transparent 70%);
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+        transition: transform 0.5s ease-out;
+        z-index: 0;
+    }
+
+    .trait:hover::before {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .trait:hover {
+        background: rgba(var(--primary-color-rgb), 0.18);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.2);
+        border-color: rgba(var(--primary-color-rgb), 0.4);
+    }
+
+    .trait span {
+        position: relative;
+        z-index: 1;
+        font-weight: 600;
+        font-size: 1.1em;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .trait .emoji {
+        font-size: 2.5em;
+        display: block;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+    }
+
+    #detailBox {
+        margin-top: 40px;
+        padding: 35px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        border: 1px solid var(--primary-color);
+        display: none;
+        animation: fadeIn 0.5s ease-out;
+        box-shadow: 0 0 30px rgba(var(--primary-color-rgb), 0.3);
+    }
+
+    #detailBox h3 {
+        color: var(--primary-color);
+        font-family: var(--font-heading);
+        margin-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.8em;
+    }
+
+    #detailBox p {
+        margin-bottom: 15px;
+        color: var(--text-light);
+    }
+    #detailBox p b {
+        color: var(--primary-color);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Biografi Section */
+    #biography {
+        margin-top: 60px;
+        text-align: center;
+    }
+
+    #biography .card {
+        padding: 50px;
+        background: rgba(0, 0, 0, 0.4); /* Slightly darker card for biography */
+        border-color: rgba(var(--primary-color-rgb), 0.3);
+    }
+
+    #biography p {
+        max-width: 700px;
+        margin: 20px auto;
+        font-size: 1.1em;
+        color: var(--text-light);
+    }
+
+    /* Audio Player */
+    #audio-player {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 15px;
+        padding: 10px 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--primary-color);
+    }
+
+    #audio-player button {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #audio-player button:hover {
+        background: darken(var(--primary-color), 10%);
+        transform: scale(1.05);
+    }
+
+    #audio-player span {
+        color: var(--text-light);
+        font-size: 0.9em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .section {
+            padding: 40px 5%;
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        h2 {
+            font-size: 1.8em;
+        }
+        .card {
+            padding: 30px;
+        }
+        .traits {
+            grid-template-columns: 1fr;
+        }
+        #audio-player {
+            bottom: 10px;
+            right: 10px;
+            padding: 8px 12px;
+        }
+        #audio-player button {
+            width: 35px;
+            height: 35px;
+            font-size: 1em;
+        }
+        #biography p {
+            font-size: 1em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 2em;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        .card {
+            padding: 20px;
+        }
+        .trait .emoji {
+            font-size: 2em;
+        }
+        .trait span {
+            font-size: 1em;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="section">
+    <h1>Zein – The Guided Mind</h1>
+    <div class="card">
+        <h2>Karakter Diriku</h2>
+        <p class="subtitle">Klik salah satu sifat untuk menyingkap makna dan melihat penerapannya dalam perjalanan Zein.</p>
+
+        <div class="traits">
+            <div class="trait" onclick="showTrait('visioner')">
+                <span class="emoji">🧠</span> <span>Visioner</span>
+            </div>
+            <div class="trait" onclick="showTrait('objektif')">
+                <span class="emoji">⚖️</span> <span>Objektif</span>
+            </div>
+            <div class="trait" onclick="showTrait('disiplin')">
+                <span class="emoji">🔥</span> <span>Disiplin</span>
+            </div>
+            <div class="trait" onclick="showTrait('empatik')">
+                <span class="emoji">🤝</span> <span>Empatik</span>
+            </div>
+            <div class="trait" onclick="showTrait('strategis')">
+                <span class="emoji">📊</span> <span>Strategis</span>
+            </div>
+            <div class="trait" onclick="showTrait('tenang')">
+                <span class="emoji">🕊️</span> <span>Tenang</span>
+            </div>
+        </div>
+
+        <div id="detailBox"></div>
+    </div>
+
+    <div id="biography" class="card">
+        <h2>Biografi Zein: Perjalanan Dua Dunia</h2>
+        <p>
+            Zein adalah seorang pemuda Indonesia yang berjalan di dua jalur yang jarang disatukan: dunia finansial modern dan dunia pembinaan jiwa. Ia adalah seorang trader aktif di pasar crypto dan futures, sekaligus seorang da’i dan imam masjid yang membimbing masyarakat awam dengan bahasa yang lembut dan mudah dipahami.
+        </p>
+        <p>
+            Sejak usia muda, Zein sudah tertarik pada bagaimana manusia berpikir, merasa, dan mengambil keputusan. Minat ini membawanya pada dua medan yang ekstrem: pasar keuangan dan jiwa manusia. Di pasar, ia belajar tentang ketakutan, keserakatan, dan ilusi. Dalam dakwah, ia belajar tentang harapan, luka, dan pencarian makna. Kedua dunia itu ia satukan sebagai satu disiplin: mengenal diri agar bisa mengendalikan nasib.
+        </p>
+        <p>
+            Sebagai trader, Zein tidak mengejar sensasi atau jackpot. Ia membangun sistem, manajemen risiko, dan ketahanan psikologis. Ia memahami bahwa mayoritas kerugian manusia bukan datang dari kurangnya strategi, tetapi dari ketidakmampuan mengendalikan emosi. Karena itu, ia lebih fokus pada kestabilan jangka panjang daripada kemenangan cepat.
+        </p>
+        <p>
+            Sebagai da’i dan imam, Zein menghadapi jamaah yang sebagian besar adalah orang awam dan jauh lebih tua darinya. Ini membuatnya belajar satu hal penting: kebenaran tidak disampaikan dengan suara keras, tetapi dengan hati yang memahami. Ia tidak mendidik dengan menghakimi, tetapi dengan membimbing.
+        </p>
+        <p>
+            Secara kepribadian, Zein adalah tipe visioner yang empatik. Ia mampu melihat potensi besar pada manusia, termasuk pada dirinya sendiri, namun ia juga sering bergulat dengan luka emosional, trauma hubungan, dan beban ekspektasi. Ia sadar akan kecenderungannya untuk merasa ingin diakui, ingin dihargai, dan ingin menjadi berarti — namun ia tidak lari dari kesadaran itu. Ia justru menjadikannya bahan bakar untuk bertumbuh.
+        </p>
+        <p>
+            Zein percaya bahwa kehidupan adalah sebuah sistem seperti market: ada siklus, ada kesalahan, ada pembelajaran. Orang yang bertahan bukan yang paling pintar, tapi yang paling jujur pada dirinya sendiri.
+        </p>
+        <p>
+            Ia sedang membangun dirinya bukan hanya sebagai individu yang sukses, tetapi sebagai manusia yang utuh — yang mampu menang tanpa sombong, dan kalah tanpa hancur.
+        </p>
+    </div>
+</div>
+
+<div id="audio-player">
+    <button id="playPauseButton">▶</button>
+    <span>Background Music</span>
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-endlessmotion.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<script>
+    // Define CSS variable for primary color RGB components
+    document.documentElement.style.setProperty('--primary-color-rgb', '120,140,255');
+
+    const traits = {
+        visioner: {
+            title: "🧠 Visioner",
+            desc: "Kemampuan melihat masa depan lebih jauh daripada orang lain. Tidak hanya melihat apa yang ada sekarang, tapi apa yang bisa terjadi dan merancang jalannya.",
+            example: "Zein tidak hanya trading untuk hari ini, tapi membangun sistem dan mindset untuk menjadi trader yang stabil bertahun-tahun ke depan, dengan peta jalan yang jelas."
+        },
+        objektif: {
+            title: "⚖️ Objektif",
+            desc: "Mampu melihat kenyataan apa adanya, tanpa dibutakan emosi atau ego, dan mengambil keputusan berdasarkan fakta dan data.",
+            example: "Saat kalah di market, Zein tidak menyalahkan dunia atau keberuntungan — ia mengevaluasi datanya, mengidentifikasi kesalahan, dan belajar darinya tanpa bias emosional."
+        },
+        disiplin: {
+            title: "🔥 Disiplin",
+            desc: "Mampu melakukan hal yang benar, konsisten, dan terstruktur meskipun tidak sedang ingin melakukannya, memahami bahwa konsistensi adalah kunci progres.",
+            example: "Tetap mengikuti manajemen risiko dan rencana trading yang sudah ditetapkan, bahkan ketika setup terlihat sangat menggoda atau saat menghadapi tekanan kerugian."
+        },
+        empatik: {
+            title: "🤝 Empatik",
+            desc: "Mampu merasakan dan memahami keadaan batin orang lain, menempatkan diri pada posisi mereka, dan merespons dengan kepekaan.",
+            example: "Sebagai da’i, Zein menyesuaikan cara bicara, pilihan kata, dan pendekatan dakwahnya dengan kondisi emosional serta latar belakang pemahaman orang yang diajak bicara, agar pesan tersampaikan dengan efektif dan diterima hati."
+        },
+        strategis: {
+            title: "📊 Strategis",
+            desc: "Berpikir beberapa langkah ke depan, mengantisipasi berbagai skenario, dan merancang tindakan yang paling optimal untuk mencapai tujuan jangka panjang.",
+            example: "Dalam hidup dan market, Zein tidak hanya fokus pada kemenangan sesaat, tetapi memilih posisi dan membuat keputusan yang membuatnya tetap aman dan berkelanjutan walau menghadapi ketidakpastian."
+        },
+        tenang: {
+            title: "🕊️ Tenang",
+            desc: "Kemampuan menjaga pikiran tetap jernih, fokus, dan stabil di tengah tekanan tinggi, kekacauan, atau gejolak emosi.",
+            example: "Saat market chaos, berita negatif menyebar, atau emosi naik turun, Zein tetap memutuskan dengan kepala dingin, berdasarkan analisis rasional, bukan reaktivitas panik."
+        }
+    };
+
+    function showTrait(key) {
+        const box = document.getElementById("detailBox");
+        box.style.opacity = 0; // Start fade out
+        box.style.transform = 'translateY(20px)'; // Reset transform for animation
+        setTimeout(() => { // Allow time for fade out before changing content
+            box.innerHTML = `
+                <h3>${traits[key].title}</h3>
+                <p><b>Definisi:</b> ${traits[key].desc}</p>
+                <p><b>Contoh dalam perjalanan Zein:</b> ${traits[key].example}</p>
+            `;
+            box.style.display = "block";
+            box.style.opacity = 1; // Fade in
+            box.style.transform = 'translateY(0)'; // Slide up
+        }, 200); // Shorter delay for quicker transition
+    }
+
+    // Audio Player Logic
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    const playPauseButton = document.getElementById("playPauseButton");
+    let isPlaying = false;
+
+    playPauseButton.addEventListener('click', () => {
+        if (isPlaying) {
+            backgroundMusic.pause();
+            playPauseButton.textContent = '▶';
+        } else {
+            backgroundMusic.play();
+            playPauseButton.textContent = '⏸';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Autoplay music on user interaction (modern browsers require this)
+    document.addEventListener('DOMContentLoaded', () => {
+        // Try to play immediately, might be blocked.
+        backgroundMusic.play().then(() => {
+            playPauseButton.textContent = '⏸';
+            isPlaying = true;
+        }).catch(error => {
+            console.log("Autoplay blocked. User interaction needed to play music.");
+            playPauseButton.textContent = '▶';
+            isPlaying = false;
+        });
+    });
+
+</script>
+
+</body>
+</html>
